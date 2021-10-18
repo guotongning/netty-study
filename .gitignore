@@ -2,3 +2,6 @@
 /helloworld/client/target/
 /helloworld/server/target/
 /out/
+/helloworld/server/server.iml
+/helloworld/helloworld.iml
+/helloworld/client/client.iml
