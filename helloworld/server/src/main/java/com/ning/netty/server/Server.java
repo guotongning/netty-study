@@ -24,11 +24,11 @@ public class Server {
             new ServerBootstrap()
                     .group(bossGroup, workerGroup)//设置线程组
                     .channel(NioServerSocketChannel.class)//要被实例化的Channel为：NioServerSocketChannel
-                    .handler(new LoggingHandler(LogLevel.INFO))//设置NioServerSocketChannel的处理器。演示：打印事件。
-                    .childHandler(new ServerHandler())//设置连入服务器的client的socket channel的处理器
+                    .handler(new LoggingHandler(LogLevel.INFO))//设置NioServerSocketChannel的处理器。
+                    .childHandler(new ServerInitializer())//设置连入服务器的client的socket channel的处理器
                     .bind(8888)//绑定端口
                     .channel()//返回Channel
-                    .close()//Channel关闭
+                    .closeFuture()//Channel关闭
                     .sync();//阻塞等待。
             //从 关闭channel到阻塞等待就是：启动服务端
         } catch (Exception e) {

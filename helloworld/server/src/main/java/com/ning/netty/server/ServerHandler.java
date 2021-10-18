@@ -1,9 +1,6 @@
 package com.ning.netty.server;
 
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.*;
 
 import java.net.InetAddress;
 import java.util.Date;
@@ -22,12 +19,15 @@ import java.util.Date;
  * @author <a href="guotongning@58.com">Nicholas</a>
  * @since 1.0-SNAPSHOT
  */
+@ChannelHandler.Sharable
 public class ServerHandler extends SimpleChannelInboundHandler<String> {
+
+    public static final String END = "\r\n";
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        ctx.write("Welcome to " + InetAddress.getLocalHost().getHostName() + "!\r\n");
-        ctx.write("It is " + new Date() + " now.\r\n");
+        ctx.write("Welcome to " + InetAddress.getLocalHost().getHostName() + "!" + END);
+        ctx.write("It is " + new Date() + " now." + END);
         ctx.flush();
     }
 
@@ -43,14 +43,14 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         String response;
         boolean close = false;
         if (msg.isEmpty()) {
-            response = "Please type something.\r\n";
+            response = "Please type something.";
         } else if (msg.equalsIgnoreCase("bye")) {
             response = "bye.";
             close = true;
         } else {
-            response = "Did you say'" + msg + "'?\r\n";
+            response = "Did you say '" + msg + "'?";
         }
-        ChannelFuture f = ctx.write(response);
+        ChannelFuture f = ctx.write(response + END);
         if (close) {
             f.addListener(ChannelFutureListener.CLOSE);
         }
