@@ -1,0 +1,4 @@
+# Project exclude paths
+/helloworld/client/target/
+/helloworld/server/target/
+/out/
