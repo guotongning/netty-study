@@ -1,8 +1,6 @@
 package com.ning.netty.server.ddz;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class DDZCommandHandler implements CommandHandler {
@@ -12,7 +10,7 @@ public class DDZCommandHandler implements CommandHandler {
     @Override
     public String handle(Command command) {
         String clientId = command.getClientId();
-        SupportedCommandEnum commandEnum = command.getCommand();
+        SupportedCommand commandEnum = command.getCommand();
         switch (commandEnum) {
             case LOGIN:
                 Room room = LOGIN_CLIENTS.get(clientId);
@@ -21,8 +19,11 @@ public class DDZCommandHandler implements CommandHandler {
                 }
                 LOGIN_CLIENTS.put(clientId, new Room());
                 return "login success!";
+            case LOGOUT:
+                LOGIN_CLIENTS.remove(clientId);
+                return "logout success!";
             case ALL_BRAND:
-                return "1235";
+                return BrandPrinter.printBrands(Brand.brands());
             case SEND_BRAND:
                 return "1231241231";
             case PLAY_BRAND:

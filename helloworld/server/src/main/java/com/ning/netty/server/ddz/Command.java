@@ -4,7 +4,7 @@ public class Command {
     private String clientId;
     private String clientIP;
     private Long timeStamp;
-    private SupportedCommandEnum command;
+    private SupportedCommand command;
 
     public Command(String command) {
         String[] commandParams = command.split(":");
@@ -12,7 +12,7 @@ public class Command {
             throw new RuntimeException("异常指令！");
         }
         this.clientId = commandParams[0];
-        this.command = SupportedCommandEnum.code2Enum(commandParams[1]);
+        this.command = SupportedCommand.code2Enum(commandParams[1]);
         this.timeStamp = System.currentTimeMillis();
         this.clientIP = "localhost";
     }
@@ -41,11 +41,11 @@ public class Command {
         this.timeStamp = timeStamp;
     }
 
-    public SupportedCommandEnum getCommand() {
+    public SupportedCommand getCommand() {
         return command;
     }
 
-    public void setCommand(SupportedCommandEnum command) {
+    public void setCommand(SupportedCommand command) {
         this.command = command;
     }
 }
