@@ -1,5 +1,8 @@
 package com.ning.netty.server;
 
+import com.ning.netty.server.ddz.Command;
+import com.ning.netty.server.ddz.CommandHandler;
+import com.ning.netty.server.ddz.DDZCommandHandler;
 import io.netty.channel.*;
 
 import java.net.InetAddress;
@@ -24,9 +27,11 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
     public static final String END = "\r\n";
 
+    private static final CommandHandler COMMAND_HANDLER = new DDZCommandHandler();
+
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        ctx.write("Welcome to " + InetAddress.getLocalHost().getHostName() + "!" + END);
+        ctx.write("Welcome to JJ World!" + END);
         ctx.write("It is " + new Date() + " now." + END);
         ctx.flush();
     }
@@ -48,7 +53,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
             response = "bye.";
             close = true;
         } else {
-            response = "Did you say '" + msg + "'?";
+            response = COMMAND_HANDLER.handle(new Command(msg));
         }
         ChannelFuture f = ctx.write(response + END);
         if (close) {

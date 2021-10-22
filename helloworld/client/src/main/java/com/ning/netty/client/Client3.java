@@ -17,7 +17,9 @@ import java.io.InputStreamReader;
  * @author <a href="guotongning@58.com">Nicholas</a>
  * @since 1.0-SNAPSHOT
  */
-public class Client {
+public class Client3 {
+    private static final String CLIENT_ID = "3";
+
     public static void main(String[] args) {
         EventLoopGroup group = new NioEventLoopGroup();
         try {
@@ -33,8 +35,8 @@ public class Client {
             while (true) {
                 String line = in.readLine();
                 if (line == null) break;
-                lastWriteFuture = ch.writeAndFlush(line + "\r\n");
-                if (line.equalsIgnoreCase("bye")) {
+                lastWriteFuture = ch.writeAndFlush(CLIENT_ID + ":" + line + "\r\n");
+                if (line.equalsIgnoreCase("exit")) {
                     ch.closeFuture().sync();
                     break;
                 }
