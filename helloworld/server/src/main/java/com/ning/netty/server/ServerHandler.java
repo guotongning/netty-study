@@ -1,10 +1,9 @@
 package com.ning.netty.server;
 
 import com.ning.netty.server.ddz.command.Command;
-import com.ning.netty.server.ddz.command.CommandHandler;
+import com.ning.netty.server.ddz.command.CommandExecutor;
 import com.ning.netty.server.ddz.command.CommandHandlerManager;
 import com.ning.netty.server.ddz.command.CommandResponse;
-import com.ning.netty.server.ddz.command.handlers.LoginCommandHandler;
 import com.ning.netty.server.ddz.enums.SupportedCommand;
 import io.netty.channel.*;
 
@@ -31,7 +30,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        ctx.write("Welcome to JJ World!" + END);
+        ctx.write("Welcome to nicholas's JJ World!" + END);
         ctx.write("It is " + new Date() + " now." + END);
         ctx.flush();
     }
@@ -45,17 +44,19 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-        String[] params = msg.split(":");
-        if (params.length == 0) {
-            throw new RuntimeException("异常指令！");
-        }
-        String clientId = params[0];
-        SupportedCommand supportedCommand = SupportedCommand.code2Enum(params[1]);
-        CommandResponse response = CommandHandlerManager.get(supportedCommand).handle(new Command(clientId, supportedCommand));
+        CommandResponse response = handleMessage(msg);
         ChannelFuture f = ctx.write(response.getResponse() + END);
         if (response.isClose()) {
             f.addListener(ChannelFutureListener.CLOSE);
         }
+    }
+
+    private CommandResponse handleMessage(String msg) {
+        String[] params = msg.split(":");
+        if (params.length == 0) {
+            return new CommandResponse(SupportedCommand.UNSUPPORTED_COMMAND.getResponse(), null);
+        }
+        return CommandExecutor.execute(new Command(params[0], SupportedCommand.code2Enum(params[1])));
     }
 
     @Override

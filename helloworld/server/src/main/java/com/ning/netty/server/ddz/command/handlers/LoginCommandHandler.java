@@ -6,8 +6,7 @@ import com.ning.netty.server.ddz.command.CommandHandler;
 import com.ning.netty.server.ddz.command.CommandResponse;
 import com.ning.netty.server.ddz.enums.SupportedCommand;
 
-import static com.ning.netty.server.ddz.enums.SupportedCommand.LOGIN;
-import static com.ning.netty.server.ddz.enums.SupportedCommand.LOGOUT;
+import static com.ning.netty.server.ddz.enums.SupportedCommand.*;
 
 @SupportCommands(values = {LOGIN, LOGOUT})
 public class LoginCommandHandler implements CommandHandler {
@@ -16,19 +15,20 @@ public class LoginCommandHandler implements CommandHandler {
     public CommandResponse handle(Command command) {
         String clientId = command.getClientId();
         SupportedCommand supportedCommand = command.getCommand();
+        String response = null;
         if (LOGIN.equals(supportedCommand)) {
-            login(clientId);
+            response = login(clientId);
         } else if (LOGOUT.equals(supportedCommand)) {
-            logout(clientId);
+            response = logout(clientId);
         }
-        return new CommandResponse("", command);
+        return new CommandResponse(response, command);
     }
 
-    private void logout(String clientId) {
-
+    private String logout(String clientId) {
+        return "logout success clientId=" + clientId;
     }
 
-    private void login(String clientId) {
-
+    private String login(String clientId) {
+        return "login success clientId=" + clientId;
     }
 }

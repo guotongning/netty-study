@@ -1,5 +1,6 @@
 package com.ning.netty.server;
 
+import com.ning.netty.server.ddz.command.CommandHandlerManager;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -15,6 +16,7 @@ import io.netty.handler.logging.LoggingHandler;
  */
 public class Server {
     public static void main(String[] args) {
+        init();
         // 配置服务端
         // boss线程组，用于接受客户端连接。
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
@@ -37,5 +39,9 @@ public class Server {
             bossGroup.shutdownGracefully();//关闭
             workerGroup.shutdownGracefully();//关闭
         }
+    }
+
+    private static void init() {
+        CommandHandlerManager.init();
     }
 }

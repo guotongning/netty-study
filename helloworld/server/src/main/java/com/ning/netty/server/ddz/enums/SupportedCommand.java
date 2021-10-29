@@ -6,19 +6,19 @@ public enum SupportedCommand {
     BYE("bye"),
     UNSUPPORTED_COMMAND("unsupported command"),
     ;
-    private final String command;
+    private final String response;
 
     SupportedCommand(String command) {
-        this.command = command;
+        this.response = command;
     }
 
-    public String getCommand() {
-        return command;
+    public String getResponse() {
+        return response;
     }
 
     public static SupportedCommand code2Enum(String command) {
         for (SupportedCommand value : values()) {
-            if (command.equals(value.getCommand())) {
+            if (command.equals(value.getResponse())) {
                 return value;
             }
         }

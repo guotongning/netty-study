@@ -12,18 +12,15 @@ public class CommandHandlerManager {
 
     private static final CommandHandler DEFAULT_HANDLER = command -> new CommandResponse("Unsupported command!", command);
 
-    static {
-        init();
-    }
-
     public static void init() {
         ServiceLoader<CommandHandler> handlers = ServiceLoader.load(CommandHandler.class);
         for (CommandHandler handler : handlers) {
             SupportCommands annotation = handler.getClass().getAnnotation(SupportCommands.class);
             SupportedCommand[] values = annotation.values();
             for (SupportedCommand value : values) {
-                if (get(value) != null) {
-                    continue;
+                CommandHandler commandHandler = get(value);
+                if (commandHandler != null) {
+                    throw new RuntimeException(String.format("the command [%s] expected one processor but found two:[%s,%s]", value.getResponse(), commandHandler.getClass().getSimpleName(), handler.getClass().getSimpleName()));
                 }
                 add(value, handler);
             }
@@ -41,7 +38,6 @@ public class CommandHandlerManager {
     }
 
     public static CommandHandler get(SupportedCommand supportedCommand) {
-        CommandHandler handler = SUPPORTED_COMMAND_MAP.get(supportedCommand);
-        return handler == null ? DEFAULT_HANDLER : handler;
+        return SUPPORTED_COMMAND_MAP.get(supportedCommand);
     }
 }
