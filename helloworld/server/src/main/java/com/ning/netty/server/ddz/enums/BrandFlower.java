@@ -1,4 +1,4 @@
-package com.ning.netty.server.ddz;
+package com.ning.netty.server.ddz.enums;
 
 /**
  * TODO

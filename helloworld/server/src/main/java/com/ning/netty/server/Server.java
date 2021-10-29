@@ -37,6 +37,5 @@ public class Server {
             bossGroup.shutdownGracefully();//关闭
             workerGroup.shutdownGracefully();//关闭
         }
-
     }
 }

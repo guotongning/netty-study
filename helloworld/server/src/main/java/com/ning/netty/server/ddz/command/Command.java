@@ -1,4 +1,6 @@
-package com.ning.netty.server.ddz;
+package com.ning.netty.server.ddz.command;
+
+import com.ning.netty.server.ddz.enums.SupportedCommand;
 
 public class Command {
     private String clientId;
@@ -6,13 +8,9 @@ public class Command {
     private Long timeStamp;
     private SupportedCommand command;
 
-    public Command(String command) {
-        String[] commandParams = command.split(":");
-        if (commandParams.length == 0) {
-            throw new RuntimeException("异常指令！");
-        }
-        this.clientId = commandParams[0];
-        this.command = SupportedCommand.code2Enum(commandParams[1]);
+    public Command(String clientId, SupportedCommand command) {
+        this.clientId = clientId;
+        this.command = command;
         this.timeStamp = System.currentTimeMillis();
         this.clientIP = "localhost";
     }

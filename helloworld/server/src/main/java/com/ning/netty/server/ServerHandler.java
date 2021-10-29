@@ -1,11 +1,13 @@
 package com.ning.netty.server;
 
-import com.ning.netty.server.ddz.Command;
-import com.ning.netty.server.ddz.CommandHandler;
-import com.ning.netty.server.ddz.DDZCommandHandler;
+import com.ning.netty.server.ddz.command.Command;
+import com.ning.netty.server.ddz.command.CommandHandler;
+import com.ning.netty.server.ddz.command.CommandHandlerManager;
+import com.ning.netty.server.ddz.command.CommandResponse;
+import com.ning.netty.server.ddz.command.handlers.LoginCommandHandler;
+import com.ning.netty.server.ddz.enums.SupportedCommand;
 import io.netty.channel.*;
 
-import java.net.InetAddress;
 import java.util.Date;
 
 /**
@@ -27,8 +29,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
     public static final String END = "\r\n";
 
-    private static final CommandHandler COMMAND_HANDLER = new DDZCommandHandler();
-
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         ctx.write("Welcome to JJ World!" + END);
@@ -45,18 +45,15 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-        String response;
-        boolean close = false;
-        if (msg.isEmpty()) {
-            response = "Please type something.";
-        } else if (msg.equalsIgnoreCase("bye")) {
-            response = "bye.";
-            close = true;
-        } else {
-            response = COMMAND_HANDLER.handle(new Command(msg));
+        String[] params = msg.split(":");
+        if (params.length == 0) {
+            throw new RuntimeException("异常指令！");
         }
-        ChannelFuture f = ctx.write(response + END);
-        if (close) {
+        String clientId = params[0];
+        SupportedCommand supportedCommand = SupportedCommand.code2Enum(params[1]);
+        CommandResponse response = CommandHandlerManager.get(supportedCommand).handle(new Command(clientId, supportedCommand));
+        ChannelFuture f = ctx.write(response.getResponse() + END);
+        if (response.isClose()) {
             f.addListener(ChannelFutureListener.CLOSE);
         }
     }

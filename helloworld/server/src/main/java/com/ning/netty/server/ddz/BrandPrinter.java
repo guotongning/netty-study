@@ -1,6 +1,9 @@
 package com.ning.netty.server.ddz;
 
-import java.util.Arrays;
+import com.ning.netty.server.ddz.entity.Brand;
+import com.ning.netty.server.ddz.enums.BrandFlower;
+import com.ning.netty.server.ddz.util.BrandUtils;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -13,8 +16,8 @@ import java.util.List;
 public class BrandPrinter {
 
     public static void main(String[] args) {
-        System.out.println(BrandPrinter.printBrands(new Brand("FUCKER",BrandFlower.BLACK)));
-        System.out.println(BrandPrinter.printBrands(Brand.brands()));
+        System.out.println(BrandPrinter.printBrands(new Brand("FUCKER", BrandFlower.BLACK)));
+        System.out.println(BrandPrinter.printBrands(BrandUtils.brands()));
     }
 
     private static final String BR = "\r\n";

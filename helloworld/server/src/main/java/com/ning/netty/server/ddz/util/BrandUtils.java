@@ -1,20 +1,14 @@
-package com.ning.netty.server.ddz;
+package com.ning.netty.server.ddz.util;
+
+import com.ning.netty.server.ddz.entity.Brand;
+import com.ning.netty.server.ddz.enums.BrandFlower;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * TODO
- *
- * @author <a href="guotongning@58.com">Nicholas</a>
- * @since
- */
-public class Brand {
-    private String value;
-    private BrandFlower flower;
-
+public class BrandUtils {
     public static void main(String[] args) {
-        Brand.brands().forEach(System.out::println);
+        BrandUtils.brands().forEach(System.out::println);
     }
 
     public static List<Brand> brands() {
@@ -38,26 +32,5 @@ public class Brand {
             }
         }
         return brands;
-    }
-
-    public Brand(String value, BrandFlower flower) {
-        this.value = value;
-        this.flower = flower;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public BrandFlower getFlower() {
-        return flower;
-    }
-
-    public void setFlower(BrandFlower flower) {
-        this.flower = flower;
     }
 }

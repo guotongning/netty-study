@@ -1,11 +1,9 @@
-package com.ning.netty.server.ddz;
+package com.ning.netty.server.ddz.enums;
 
 public enum SupportedCommand {
     LOGIN("login"),
     LOGOUT("logout"),
-    ALL_BRAND("all"),
-    SEND_BRAND("hands"),
-    PLAY_BRAND("send"),
+    BYE("bye"),
     UNSUPPORTED_COMMAND("unsupported command"),
     ;
     private final String command;
