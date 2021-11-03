@@ -4,6 +4,10 @@ public enum SupportedCommand {
     LOGIN("login"),
     LOGOUT("logout"),
     BYE("bye"),
+    ROOM_LIST("room list"),
+    CREATE_ROOM("create room"),
+    DELETE_ROOM("delete room"),
+    JOIN_ROOM("join room"),
     UNSUPPORTED_COMMAND("unsupported command"),
     ;
     private final String response;
@@ -18,7 +22,7 @@ public enum SupportedCommand {
 
     public static SupportedCommand code2Enum(String command) {
         for (SupportedCommand value : values()) {
-            if (command.equals(value.getResponse())) {
+            if (command.startsWith(value.getResponse())) {
                 return value;
             }
         }
