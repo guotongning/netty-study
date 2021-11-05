@@ -26,7 +26,12 @@ public class BrandUtils {
             }
         }
         for (int i = 0; i < 10; i++) {
-            String value = i + 1 + "";
+            String value;
+            if (i == 0) {
+                value = "A";
+            } else {
+                value = i + 1 + "";
+            }
             for (int j = 0; j < 4; j++) {
                 brands.add(new Brand(value, flowers[j + 2]));
             }
