@@ -27,7 +27,7 @@ public class CommandHandlerManager {
         }
     }
 
-    public static void add(SupportedCommand supportedCommand, CommandHandler commandHandler) {
+    private static void add(SupportedCommand supportedCommand, CommandHandler commandHandler) {
         if (supportedCommand == null) {
             return;
         }
